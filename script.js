@@ -1,7 +1,6 @@
 const button = document.getElementById("helloButton");
 const message = document.getElementById("message");
 
-
 const colors = [
     "#764ba2",
     "#ff6b6b",
@@ -16,34 +15,34 @@ const colors = [
 let currentColor = "#667eea";
 
 document.addEventListener("click", function (event) {
-    // Choose a different background color
     let newColor;
 
     do {
-        newColor = colors[Math.floor(Math.random() * colors.length)];
+        newColor = colors[
+            Math.floor(Math.random() * colors.length)
+        ];
     } while (newColor === currentColor);
 
     currentColor = newColor;
 
-    // Set the bubble's origin to the click position
-    document.body.style.setProperty("--click-x", `${event.clientX}px`);
-    document.body.style.setProperty("--click-y", `${event.clientY}px`);
-    document.body.style.setProperty("--bubble-color", newColor);
+    const body = document.body;
 
-    // Restart the animation
-    document.body.classList.remove("bubble-active");
+    // Update the bubble's starting position and color
+    body.style.setProperty("--click-x", `${event.clientX}px`);
+    body.style.setProperty("--click-y", `${event.clientY}px`);
+    body.style.setProperty("--bubble-color", newColor);
 
-    // Force the browser to reset the animation
-    void document.body.offsetWidth;
+    // Remove the previous animation state
+    body.classList.remove("bubble-active");
 
-    document.body.classList.add("bubble-active");
+    // Force browser reflow to restart the animation
+    void body.offsetHeight;
+
+    // Trigger the bubble animation again
+    body.classList.add("bubble-active");
 });
 
 button.addEventListener("click", function () {
     message.textContent =
         "Hello! JavaScript is working inside Docker v2 🚀";
-});
-
-button.addEventListener("click", function () {
-    message.textContent = "Hello! JavaScript is working inside Docker v2 🚀";
 });
