@@ -12,34 +12,33 @@ const colors = [
     "#10ac84"
 ];
 
-let currentColor = "#667eea";
+let lastColor = "#667eea";
 
 document.addEventListener("click", function (event) {
-    let newColor;
+    // Pick a new background color
+    let color;
 
     do {
-        newColor = colors[
-            Math.floor(Math.random() * colors.length)
-        ];
-    } while (newColor === currentColor);
+        color = colors[Math.floor(Math.random() * colors.length)];
+    } while (color === lastColor);
 
-    currentColor = newColor;
+    lastColor = color;
 
-    const body = document.body;
+    // Create a fresh bubble for every click
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
 
-    // Update the bubble's starting position and color
-    body.style.setProperty("--click-x", `${event.clientX}px`);
-    body.style.setProperty("--click-y", `${event.clientY}px`);
-    body.style.setProperty("--bubble-color", newColor);
+    bubble.style.left = event.clientX + "px";
+    bubble.style.top = event.clientY + "px";
+    bubble.style.backgroundColor = color;
 
-    // Remove the previous animation state
-    body.classList.remove("bubble-active");
+    document.body.appendChild(bubble);
 
-    // Force browser reflow to restart the animation
-    void body.offsetHeight;
-
-    // Trigger the bubble animation again
-    body.classList.add("bubble-active");
+    // Remove bubble after its animation ends
+    bubble.addEventListener("animationend", function () {
+        bubble.remove();
+        document.body.style.backgroundColor = color;
+    });
 });
 
 button.addEventListener("click", function () {
