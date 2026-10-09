@@ -22,14 +22,18 @@ body::before {
     position: fixed;
     inset: 0;
     background: var(--bubble-color, #764ba2);
-    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+    clip-path: circle(
+        0px at var(--click-x, 50%) var(--click-y, 50%)
+    );
     transition: clip-path 0.8s ease-in-out;
     z-index: -1;
     pointer-events: none;
 }
 
 body.bubble-active::before {
-    clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+    clip-path: circle(
+        150vmax at var(--click-x, 50%) var(--click-y, 50%)
+    );
 }
 
 .container {
