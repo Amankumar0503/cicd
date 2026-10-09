@@ -6,11 +6,30 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #667eea;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Expanding background bubble */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: var(--bubble-color, #764ba2);
+    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+    transition: clip-path 0.8s ease-in-out;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body.bubble-active::before {
+    clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
 }
 
 .container {
@@ -19,6 +38,7 @@ body {
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: min(90%, 500px);
 }
 
 h1 {
@@ -39,14 +59,23 @@ button {
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    transition: transform 0.2s, background 0.2s;
 }
 
 button:hover {
     background: #5568d9;
+    transform: scale(1.05);
 }
 
 #message {
     margin-top: 20px;
+    margin-bottom: 0;
     font-weight: bold;
     color: #667eea;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before {
+        transition: none;
+    }
 }
